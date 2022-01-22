@@ -1,0 +1,102 @@
+<div class="centrar">
+    <div *ngIf="!usuario" #else Usuario>
+        <h2>NOMBRE DE USUARIO</h2>
+        Usuario: <input [(ngModel)]="usuarioTextBox" type="string" placeholder="Usuario"/>
+        <p *ngIf="errorElegido" style="color:#FF0000;">
+            Username no valido
+        </p>
+        <p *ngIf="errorNombre" style="color:#FF0000;">
+            Introduce un nombre de usuario
+        </p>
+        <p>
+            <input type="submit" value="OK" (click)="setUsuario()"/>
+        </p>
+    </div>
+    
+    <div *ngIf="usuario">
+        
+        <h2>HOLA {{usuario}}</h2>
+       
+        <h2>Selecciona el tipo de cifrado:</h2>
+        Tipo de cifrado: <select [(ngModel)]="cifrado">
+            <option value="RSA">RSA</option>
+            <option value="Firma Ciega">Firma Ciega</option>
+        </select>*
+        <p *ngIf="errorCifrado" style="color:#FF0000;">
+            Debes seleccionar un tipo de cifrado
+        </p>
+        <h2>Mensaje a enviar:</h2>
+        Mensaje: <input [(ngModel)]="mensaje" type="string" placeholder="Mensaje"/>*
+        <p *ngIf="errorMensaje" style="color:#FF0000;">
+            Debes escribir un mensaje
+        </p>
+        <p>
+            <input type="submit" value="Enviar" (click)="enviar()"/>
+        </p>
+        <div *ngIf = "mensajes && mensajes.length > 0">
+            MENSAJES
+            <p *ngFor = "let mensaje of mensajes">
+                {{mensaje.usuario}}: {{mensaje.mensaje}}
+            </p>
+        </div>
+        
+        <h2>VOTACIÓN</h2>
+        Elige tu candidato (Máx. 99 votos): <select [(ngModel)]="candidato">
+            <option value="1">Rajoy</option>
+            <option value="100">Trump</option>
+            <option value="10000">Juanelas</option>
+        </select>*
+        <p *ngIf="errorVoto" style="color:#FF0000;">
+            Debes elegir un candidato
+        </p>
+        <p *ngIf="errorMax" style="color:#FF0000;">
+            Ya han votado todos
+        </p>
+        <p>
+            <input type="submit" value="Votar" (click)="votar()" [disabled]="votado"/>
+        </p>
+        <div *ngIf="votado">
+            <p>
+                Rajoy: {{votosMarianoRajoy}}
+            </p>
+            <p>
+                Trump: {{votosDonaldTrump}}
+            </p>
+            <p>
+                Juanelas: {{votosJuanelas}}
+            </p>
+        </div>
+        <h2>SECRETO COMPARTIDO</h2>
+        Escribe el secreto que quieres compartir: <input [(ngModel)]="secreto" type="string" placeholder="Secreto"/>
+        Nº de Claves Totales: <input [(ngModel)]="shared" type="number"/>
+        Nº de Claves Necesarias <input [(ngModel)]="threshold" type="number"/>
+        <p *ngIf="errorSecreto" style="color:#FF0000;">
+            Debes rellenar todos los campos correctamente
+        </p>
+        <p>
+            <input type="submit" value="Obtener Claves" (click)="getClaves()"/>
+        </p>
+        <p *ngFor="let clave of clavesCompartidas">
+            Clave: {{clave}}
+        </p>
+        <h3>RECUPERAR SECRETO</h3>
+        Nº de claves necesarias: <input [(ngModel)]="numClaves" type="number"/> 
+        <input type="submit" value="Escribir las Claves" (click)="setLenClaves()"/>
+
+        <p *ngFor="let clave of claves; index as i">
+            Clave {{i + 1}}: <input [(ngModel)]="claves[i]" type="string"/>
+        </p>
+        <p>
+            <input type="submit" value="Recuperar Secreto" (click)="getSecreto()"/>
+        </p>
+        <p *ngIf="errorClaves" style="color:#FF0000;">
+            Debes escribir todas las claves
+        </p>
+        <p>
+            Secreto recuperado: {{secretoRecuperado}}
+        </p>
+        <p *ngIf="errorRecuperado" style="color:#FF0000;">
+            LAS CLAVES NO SON CORRECTAS
+        </p>
+    </div>
+</div>
